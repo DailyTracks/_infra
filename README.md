@@ -38,4 +38,3 @@
 - nginx - proxy 와 로드밸러서 역할
 - server1 - 서비스 로직 서버
 - server2 - io 로직 서버 (채팅)
-"# _infra" 
