@@ -8,7 +8,7 @@ const { init } = require("./io/socket");
 /** http create server */
 const server = http.createServer(app);
 
-init(server);
-server.listen(8081, () => {
-  console.log(`Server is running on port ${8081}`);
+server.listen(SERVER.PORT, () => {
+  init(server);
+  console.log(`Server is running on port ${SERVER.PORT}`);
 });

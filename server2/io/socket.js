@@ -1,7 +1,6 @@
 const socketIo = require("socket.io");
 const { messages } = require("../models");
 const Queue = require("bull");
-const { CLIENT } = require("../constants/env.constant");
 
 let io;
 let messageQueue;
@@ -9,13 +8,18 @@ let messageQueue;
 const init = (server) => {
   io = socketIo(server, {
     cors: {
-      origin: `http://${CLIENT.HOST}:${CLIENT.PORT}`,
+      origin: "http://localhost:3000",
       methods: ["GET", "POST"],
       allowedHeaders: ["my-custom-header"],
       credentials: true,
     },
   });
-  messageQueue = new Queue("messages");
+  messageQueue = new Queue("messages", {
+    redis: {
+      port: 6379,
+      host: "redis",
+    },
+  });
 
   io.on("connection", (socket) => {
     console.log("User connected");
