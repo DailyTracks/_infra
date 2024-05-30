@@ -5,12 +5,12 @@ const router = require("express").Router();
 const profileIndex = require("./profile/index");
 router.get("/", userController.getUsers);
 router.get("/follow", userController.isFollowUser);
-router.get("/:id", userController.getUser);
 router.get(
   "/:id/written_board",
   guardMiddleware,
   userController.getBoardByWrittenAuthorId
-);
+)
+router.get("/:id", userController.getUser);
 router.get("/:id/following", userController.getFollowing);
 router.get("/:id/follower", userController.getFollower);
 router.post("/:id/follow", userController.followUser);

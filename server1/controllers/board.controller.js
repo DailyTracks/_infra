@@ -22,6 +22,7 @@ class BoardController {
   async getBoards(req, res, next) {
     try {
       const { region } = req.query;
+      const { limit } = req.query;
       let boards = null;
       /**
        * recent
@@ -31,8 +32,10 @@ class BoardController {
       const type = req.query.type || "recent";
 
       if (region) boards = await boardService.getBoardByLocation(region, type);
-      else boards = await boardService.getBoards(type);
-
+      else {
+		if(!limit)boards = await boardService.getBoards(type);
+	        else boards = await boardService.getBoardsByUsingLimit(type,parseInt(limit));
+      }
       res.status(200).json(boards);
     } catch (err) {
       next(err);

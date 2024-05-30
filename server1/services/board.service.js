@@ -18,6 +18,19 @@ const searchMethod = {
   ],
 };
 class BoardService {
+  async getBoardsByUsingLimit(type, limit) {
+    const foundBoards = await boards.findAll({
+      order: searchMethod[type],
+      limit: parseInt(limit),
+    });
+    const parsedBoards = await Promise.all(
+      foundBoards.map(async (board) => {
+        return await this.parseBoard(board.dataValues);
+      })
+    );
+
+    return parsedBoards;
+  }
   async getBoardUidByBid(bid) {
     const board = await boards.findOne({
       where: { id: bid },

@@ -4,16 +4,21 @@ class UserController {
   async getBoardByWrittenAuthorId(req, res, next) {
     try {
       const userId = req.user.id;
-      const boards = await userService.getBoardByWrittenAuthorId(userId);
-      res.status(200).json(boards.dataValues);
+      const boards = await userService.getBoardByUid(userId);
+      res.status(200).json(boards);
     } catch (err) {
       next(err);
     }
   }
   async getUsers(req, res, next) {
     try {
-      const users = await userService.getUsers();
-      res.status(200).json(users);
+      let users = null;
+	    const {name} = req.query;
+      if(!name)
+      	users = await userService.getUsers();
+	    else
+		    users = await userService.getUsersByUserName(name);
+	    res.status(200).json(users);
     } catch (err) {
       next(err);
     }
@@ -123,3 +128,4 @@ class UserController {
 }
 
 module.exports = new UserController();
+

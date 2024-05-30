@@ -1,5 +1,6 @@
-const { where } = require("sequelize");
+const { where,Op } = require("sequelize");
 const { users, follows, profiles, boards } = require("../models/index");
+
 class UnionFind {
   constructor(size) {
     this.parent = new Array(size).fill(-1);
@@ -33,12 +34,15 @@ class UserService {
   }
 
   async getBoardByUid(uid) {
-    return await boards.findAll({ where: { user_id: uid } });
+ 	return  await boards.findAll({ where: { user_id: uid } });
   }
   async getUsers() {
     return await users.findAll();
   }
 
+	async getUsersByUserName(username){
+		return await users.findAll({where:{username: {[Op.like]: `%${username}%`}}})
+	}
   async getUser(id) {
     return await users.findOne({ where: { id } });
   }

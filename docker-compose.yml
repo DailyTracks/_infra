@@ -14,6 +14,8 @@ services:
     build:
       context: ./server1
       dockerfile: Dockerfile
+    volumes:
+      - ./server1/uploads:/usr/src/app/uploads
     ports:
       - "8000:8000"
   node1_1:
@@ -23,6 +25,8 @@ services:
     build:
       context: ./server1
       dockerfile: Dockerfile
+    volumes:
+      - ./server1/uploads:/usr/src/app/uploads
     ports:
       - "8001:8000"
   node2:
