@@ -2,6 +2,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 module.exports = {
+  SALT_ROUNDS: parseInt(process.env.SALT_ROUNDS),
   SERVER: {
     PORT: process.env.SERVER_PORT || 8080,
   },
@@ -30,3 +31,4 @@ module.exports = {
     },
   },
 };
+

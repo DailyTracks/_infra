@@ -1,5 +1,6 @@
 const { where } = require("sequelize");
 const { users, profiles } = require("../models");
+const { crypto } = require("../configs/crypto.config");
 
 const NaverStrategy = require("passport-naver-v2").Strategy;
 const KakaoStrategy = require("passport-kakao").Strategy;
@@ -12,16 +13,16 @@ module.exports = {
       passwordField: "password",
     },
     async (userId, password, done) => {
-	    console.log(userId);
-	    console.log(password);
+      console.log(userId);
+      console.log(password);
       const user = await users.findOne({ where: { email: userId } });
       if (!user) {
         return done({ msg: "존재하지 않는 계정입니다.", code: -1 }, null);
       }
 
       const profile = await profiles.findOne({ where: { id: user.id } });
-	    console.log(profile);
-      if (profile.password !== password) {
+      console.log(profile);
+      if (!(await crypto.compare(password, profile.password))) {
         return done({ msg: "비밀번호가 일치하지 않습니다.", code: -1 }, null);
       }
       return done(null, user);
@@ -79,3 +80,4 @@ module.exports = {
     }
   ),
 };
+
